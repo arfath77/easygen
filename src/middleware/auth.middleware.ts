@@ -21,13 +21,7 @@ export class AuthMiddleware implements NestMiddleware {
     try {
       const headers = req.headers as unknown as Record<string, string>;
       const token = headers['X-API-KEY'] || headers['x-api-key'];
-      if (!token) {
-        throw new HttpException(
-          '`X-API-KEY` not provided',
-          HttpStatus.NOT_FOUND,
-        );
-      }
-      if (token !== this.API_KEY) {
+      if (!token || token !== this.API_KEY) {
         throw new HttpException(
           'Invalid `X-API-KEY` provided',
           HttpStatus.UNAUTHORIZED,
